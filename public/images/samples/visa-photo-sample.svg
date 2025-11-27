@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" fill="none">
+  <!-- White Background - US Visa style -->
+  <rect width="500" height="500" fill="#FFFFFF"/>
+
+  <!-- Body/Shoulders -->
+  <ellipse cx="250" cy="550" rx="150" ry="100" fill="#374151"/>
+
+  <!-- White Shirt -->
+  <path d="M210 385 L225 500 L275 500 L290 385 L265 370 L250 378 L235 370 Z" fill="white"/>
+
+  <!-- Tie -->
+  <path d="M250 378 L240 395 L250 500 L260 395 Z" fill="#1D4ED8"/>
+
+  <!-- Jacket -->
+  <path d="M160 395 L210 375 L230 500 L130 500 Z" fill="#374151"/>
+  <path d="M340 395 L290 375 L270 500 L370 500 Z" fill="#374151"/>
+
+  <!-- Neck -->
+  <rect x="215" y="320" width="70" height="60" fill="#F5D6C6"/>
+
+  <!-- Face -->
+  <ellipse cx="250" cy="215" rx="100" ry="125" fill="#F5D6C6"/>
+
+  <!-- Hair -->
+  <ellipse cx="250" cy="130" rx="105" ry="85" fill="#78350F"/>
+  <path d="M150 175 Q145 230 160 270" fill="#78350F"/>
+  <path d="M350 175 Q355 230 340 270" fill="#78350F"/>
+
+  <!-- Ears - fully visible for visa -->
+  <ellipse cx="150" cy="230" rx="16" ry="28" fill="#F0C9B8"/>
+  <ellipse cx="350" cy="230" rx="16" ry="28" fill="#F0C9B8"/>
+
+  <!-- Eyes -->
+  <ellipse cx="205" cy="215" rx="20" ry="14" fill="white"/>
+  <ellipse cx="295" cy="215" rx="20" ry="14" fill="white"/>
+  <ellipse cx="205" cy="218" rx="11" ry="11" fill="#78350F"/>
+  <ellipse cx="295" cy="218" rx="11" ry="11" fill="#78350F"/>
+  <ellipse cx="208" cy="214" rx="5" ry="5" fill="white"/>
+  <ellipse cx="298" cy="214" rx="5" ry="5" fill="white"/>
+
+  <!-- Eyebrows -->
+  <path d="M175 190 Q205 182 235 192" stroke="#78350F" stroke-width="4" fill="none"/>
+  <path d="M265 192 Q295 182 325 190" stroke="#78350F" stroke-width="4" fill="none"/>
+
+  <!-- Nose -->
+  <path d="M250 220 L244 265 Q250 275 256 265 L250 220" fill="#E8C4B4"/>
+
+  <!-- Mouth - Neutral -->
+  <path d="M220 305 Q250 315 280 305" stroke="#B8786A" stroke-width="3" fill="none"/>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" fill="none">
+  <!-- Clean White Background -->
+  <rect width="300" height="400" fill="#FFFFFF"/>
+
+  <!-- Body/Shoulders - Formal Blouse -->
+  <ellipse cx="150" cy="420" rx="110" ry="75" fill="#1F2937"/>
+
+  <!-- White Blouse -->
+  <path d="M115 305 L125 400 L175 400 L185 305 Q150 320 115 305" fill="white"/>
+
+  <!-- Blouse collar -->
+  <path d="M120 305 L145 285 L150 290 L155 285 L180 305" stroke="white" stroke-width="8" fill="none"/>
+
+  <!-- Suit Jacket -->
+  <path d="M90 310 L115 300 L130 400 L70 400 Z" fill="#1F2937"/>
+  <path d="M210 310 L185 300 L170 400 L230 400 Z" fill="#1F2937"/>
+
+  <!-- Neck -->
+  <rect x="125" y="265" width="50" height="45" fill="#F8DDD0"/>
+
+  <!-- Face - Enhanced -->
+  <ellipse cx="150" cy="185" rx="70" ry="90" fill="#F8DDD0"/>
+
+  <!-- Hair - Neatly styled -->
+  <ellipse cx="150" cy="125" rx="83" ry="70" fill="#3D2A1E"/>
+  <ellipse cx="72" cy="195" rx="25" ry="70" fill="#3D2A1E"/>
+  <ellipse cx="228" cy="195" rx="25" ry="70" fill="#3D2A1E"/>
+  <ellipse cx="82" cy="290" rx="20" ry="50" fill="#3D2A1E"/>
+  <ellipse cx="218" cy="290" rx="20" ry="50" fill="#3D2A1E"/>
+
+  <!-- Ears -->
+  <ellipse cx="82" cy="190" rx="10" ry="18" fill="#F5CFC0"/>
+  <ellipse cx="218" cy="190" rx="10" ry="18" fill="#F5CFC0"/>
+
+  <!-- Eyes - Enhanced -->
+  <ellipse cx="120" cy="185" rx="15" ry="11" fill="white"/>
+  <ellipse cx="180" cy="185" rx="15" ry="11" fill="white"/>
+  <ellipse cx="120" cy="187" rx="8" ry="8" fill="#3D2A1E"/>
+  <ellipse cx="180" cy="187" rx="8" ry="8" fill="#3D2A1E"/>
+  <ellipse cx="122" cy="184" rx="3.5" ry="3.5" fill="white"/>
+  <ellipse cx="182" cy="184" rx="3.5" ry="3.5" fill="white"/>
+
+  <!-- Eyebrows -->
+  <path d="M100 165 Q120 160 138 167" stroke="#3D2A1E" stroke-width="2.5" fill="none"/>
+  <path d="M162 167 Q180 160 200 165" stroke="#3D2A1E" stroke-width="2.5" fill="none"/>
+
+  <!-- Nose -->
+  <path d="M150 190 L147 216 Q150 222 153 216 L150 190" fill="#EBCFC0"/>
+
+  <!-- Mouth - Natural -->
+  <path d="M130 248 Q150 256 170 248" stroke="#C9907A" stroke-width="2.5" fill="none"/>
+</svg>

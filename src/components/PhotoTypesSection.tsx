@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
 const photoTypes = [
@@ -9,42 +10,48 @@ const photoTypes = [
     size: "3.5 x 4.5 cm",
     description: "대한민국 여권 규격에 맞는 사진",
     features: ["흰색 배경", "정면 응시", "무표정"],
-    popular: true
+    popular: true,
+    image: "/images/samples/passport-sample.svg"
   },
   {
     title: "증명사진",
     size: "3 x 4 cm",
     description: "이력서, 자격증, 수험표용 표준 증명사진",
     features: ["다양한 배경색", "자연스러운 표정", "정장 합성 가능"],
-    popular: false
+    popular: false,
+    image: "/images/samples/id-photo-sample.svg"
   },
   {
     title: "비자사진",
     size: "5 x 5 cm",
     description: "미국, 캐나다 등 비자 신청용 사진",
     features: ["국가별 규격", "흰색/밝은 배경", "귀 노출"],
-    popular: false
+    popular: false,
+    image: "/images/samples/visa-photo-sample.svg"
   },
   {
     title: "주민등록증",
     size: "3.5 x 4.5 cm",
     description: "주민등록증 발급/재발급용 사진",
     features: ["흰색 배경", "6개월 이내 촬영", "무표정"],
-    popular: false
+    popular: false,
+    image: "/images/samples/sample-result-1.svg"
   },
   {
     title: "운전면허증",
     size: "3 x 4 cm",
     description: "운전면허증 발급용 규격 사진",
     features: ["컬러 사진", "정면 응시", "6개월 이내"],
-    popular: false
+    popular: false,
+    image: "/images/samples/sample-result-2.svg"
   },
   {
     title: "취업용 사진",
     size: "맞춤 사이즈",
     description: "기업 지원서, LinkedIn 프로필용",
     features: ["정장 합성", "밝은 표정", "프로페셔널"],
-    popular: false
+    popular: false,
+    image: "/images/samples/profile-sample.svg"
   }
 ];
 
@@ -80,10 +87,13 @@ export default function PhotoTypesSection() {
               )}
 
               <div className="mb-4">
-                <div className="w-16 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg mx-auto mb-4 flex items-center justify-center border-2 border-dashed border-gray-300">
-                  <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
+                <div className="w-20 h-24 rounded-lg mx-auto mb-4 overflow-hidden shadow-md relative">
+                  <Image
+                    src={type.image}
+                    alt={type.title}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
               </div>
 

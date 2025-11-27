@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { OutfitOption } from "@/types";
 import { outfitOptions, getOutfitsByGender, getOutfitsByCategory } from "@/lib/outfits";
 import { Check, Lock, User, Shirt } from "lucide-react";
@@ -105,21 +106,25 @@ export default function OutfitSelector({ selectedOutfit, onSelect }: OutfitSelec
             }`}
           >
             {/* Outfit Preview */}
-            <div className="aspect-[3/4] bg-gradient-to-b from-gray-100 to-gray-200 flex items-center justify-center">
-              <div className="flex flex-col items-center gap-1">
-                <Shirt className="w-8 h-8 text-gray-400" />
-                {outfit.colors && (
-                  <div className="flex gap-1">
-                    {outfit.colors.slice(0, 3).map((color, idx) => (
-                      <div
-                        key={idx}
-                        className="w-3 h-3 rounded-full border border-gray-300"
-                        style={{ backgroundColor: color }}
-                      ></div>
-                    ))}
-                  </div>
-                )}
-              </div>
+            <div className="aspect-[3/4] bg-gradient-to-b from-gray-50 to-gray-100 relative overflow-hidden">
+              <Image
+                src={outfit.thumbnail}
+                alt={outfit.name}
+                fill
+                className="object-cover"
+              />
+              {/* Color indicators */}
+              {outfit.colors && (
+                <div className="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-1">
+                  {outfit.colors.slice(0, 3).map((color, idx) => (
+                    <div
+                      key={idx}
+                      className="w-3 h-3 rounded-full border border-white shadow-sm"
+                      style={{ backgroundColor: color }}
+                    ></div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Outfit Name */}
@@ -150,8 +155,13 @@ export default function OutfitSelector({ selectedOutfit, onSelect }: OutfitSelec
       {/* Selected Outfit */}
       {selectedOutfit && (
         <div className="mt-4 p-3 bg-indigo-50 rounded-xl flex items-center gap-3">
-          <div className="w-12 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
-            <Shirt className="w-6 h-6 text-gray-400" />
+          <div className="w-12 h-16 bg-gray-100 rounded-lg overflow-hidden relative">
+            <Image
+              src={selectedOutfit.thumbnail}
+              alt={selectedOutfit.name}
+              fill
+              className="object-cover"
+            />
           </div>
           <div className="flex-1">
             <span className="text-sm font-medium text-gray-900">{selectedOutfit.name}</span>

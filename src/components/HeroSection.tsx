@@ -1,9 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles, Shield, Clock } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, Sparkles, Shield, Clock, ArrowLeftRight } from "lucide-react";
 
 export default function HeroSection() {
+  const [showAfter, setShowAfter] = useState(true);
+
   return (
     <section className="relative overflow-hidden">
       {/* Background gradient */}
@@ -67,29 +71,84 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right Content - Preview */}
+          {/* Right Content - Before/After Preview */}
           <div className="relative">
             <div className="relative mx-auto w-full max-w-md">
+              {/* Before/After Toggle */}
+              <div className="flex justify-center gap-2 mb-4">
+                <button
+                  onClick={() => setShowAfter(false)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                    !showAfter
+                      ? "bg-gray-900 text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  Before
+                </button>
+                <button
+                  onClick={() => setShowAfter(!showAfter)}
+                  className="p-2 bg-indigo-100 rounded-full text-indigo-600 hover:bg-indigo-200"
+                >
+                  <ArrowLeftRight className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setShowAfter(true)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                    showAfter
+                      ? "bg-indigo-600 text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  After
+                </button>
+              </div>
+
               {/* Main preview card */}
               <div className="bg-white rounded-3xl shadow-2xl p-6 animate-float">
-                <div className="aspect-[3/4] bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl mb-4 overflow-hidden relative">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-32 h-32 rounded-full bg-gradient-to-br from-indigo-200 to-purple-200 flex items-center justify-center">
-                      <svg className="w-16 h-16 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                    </div>
+                <div className="aspect-[3/4] rounded-2xl mb-4 overflow-hidden relative">
+                  {/* Before Image */}
+                  <div
+                    className={`absolute inset-0 transition-opacity duration-500 ${
+                      showAfter ? "opacity-0" : "opacity-100"
+                    }`}
+                  >
+                    <Image
+                      src="/images/samples/sample-original-1.svg"
+                      alt="Before"
+                      fill
+                      className="object-cover"
+                    />
                   </div>
-                  {/* Photo guidelines overlay */}
-                  <div className="absolute inset-4 border-2 border-dashed border-indigo-300 rounded-xl opacity-50"></div>
+                  {/* After Image */}
+                  <div
+                    className={`absolute inset-0 transition-opacity duration-500 ${
+                      showAfter ? "opacity-100" : "opacity-0"
+                    }`}
+                  >
+                    <Image
+                      src="/images/samples/sample-result-1.svg"
+                      alt="After"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                 </div>
                 <div className="flex justify-between items-center">
                   <div>
-                    <p className="font-semibold text-gray-900">증명사진</p>
+                    <p className="font-semibold text-gray-900">
+                      {showAfter ? "증명사진 완성" : "원본 사진"}
+                    </p>
                     <p className="text-sm text-gray-500">3.5 x 4.5 cm</p>
                   </div>
-                  <div className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                    완료
+                  <div
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${
+                      showAfter
+                        ? "bg-green-100 text-green-700"
+                        : "bg-gray-100 text-gray-600"
+                    }`}
+                  >
+                    {showAfter ? "완료" : "원본"}
                   </div>
                 </div>
               </div>

@@ -7,7 +7,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '검정 정장 + 흰 셔츠',
     gender: 'male',
     category: 'formal',
-    thumbnail: '/outfits/male-suit-black.png',
+    thumbnail: '/images/outfits/suit-black.svg',
     premium: false,
     colors: ['#1a1a1a', '#FFFFFF']
   },
@@ -16,7 +16,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '네이비 정장 + 흰 셔츠',
     gender: 'male',
     category: 'formal',
-    thumbnail: '/outfits/male-suit-navy.png',
+    thumbnail: '/images/outfits/suit-navy.svg',
     premium: false,
     colors: ['#1e3a5f', '#FFFFFF']
   },
@@ -25,7 +25,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '차콜 정장 + 흰 셔츠',
     gender: 'male',
     category: 'formal',
-    thumbnail: '/outfits/male-suit-charcoal.png',
+    thumbnail: '/images/outfits/suit-gray.svg',
     premium: false,
     colors: ['#36454f', '#FFFFFF']
   },
@@ -34,7 +34,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '검정 정장 + 레드 넥타이',
     gender: 'male',
     category: 'formal',
-    thumbnail: '/outfits/male-suit-black-tie-red.png',
+    thumbnail: '/images/outfits/suit-black.svg',
     premium: true,
     colors: ['#1a1a1a', '#FFFFFF', '#c41e3a']
   },
@@ -43,7 +43,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '검정 정장 + 블루 넥타이',
     gender: 'male',
     category: 'formal',
-    thumbnail: '/outfits/male-suit-black-tie-blue.png',
+    thumbnail: '/images/outfits/suit-black.svg',
     premium: true,
     colors: ['#1a1a1a', '#FFFFFF', '#1e3a5f']
   },
@@ -52,7 +52,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '네이비 정장 + 넥타이',
     gender: 'male',
     category: 'formal',
-    thumbnail: '/outfits/male-suit-navy-tie.png',
+    thumbnail: '/images/outfits/suit-navy.svg',
     premium: true,
     colors: ['#1e3a5f', '#FFFFFF', '#4a4a4a']
   },
@@ -63,7 +63,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '흰색 셔츠',
     gender: 'male',
     category: 'business',
-    thumbnail: '/outfits/male-shirt-white.png',
+    thumbnail: '/images/outfits/blouse-white.svg',
     premium: false,
     colors: ['#FFFFFF']
   },
@@ -72,7 +72,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '하늘색 셔츠',
     gender: 'male',
     category: 'business',
-    thumbnail: '/outfits/male-shirt-blue.png',
+    thumbnail: '/images/outfits/blouse-white.svg',
     premium: false,
     colors: ['#87CEEB']
   },
@@ -81,7 +81,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '네이비 폴로',
     gender: 'male',
     category: 'casual',
-    thumbnail: '/outfits/male-polo-navy.png',
+    thumbnail: '/images/outfits/suit-navy.svg',
     premium: true,
     colors: ['#1e3a5f']
   },
@@ -92,7 +92,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '검정 자켓 + 흰 블라우스',
     gender: 'female',
     category: 'formal',
-    thumbnail: '/outfits/female-suit-black.png',
+    thumbnail: '/images/outfits/blouse-white.svg',
     premium: false,
     colors: ['#1a1a1a', '#FFFFFF']
   },
@@ -101,7 +101,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '네이비 자켓 + 흰 블라우스',
     gender: 'female',
     category: 'formal',
-    thumbnail: '/outfits/female-suit-navy.png',
+    thumbnail: '/images/outfits/blouse-white.svg',
     premium: false,
     colors: ['#1e3a5f', '#FFFFFF']
   },
@@ -110,7 +110,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '베이지 자켓 + 흰 블라우스',
     gender: 'female',
     category: 'formal',
-    thumbnail: '/outfits/female-suit-beige.png',
+    thumbnail: '/images/outfits/blouse-white.svg',
     premium: true,
     colors: ['#d4b896', '#FFFFFF']
   },
@@ -119,7 +119,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '흰색 블라우스',
     gender: 'female',
     category: 'business',
-    thumbnail: '/outfits/female-blouse-white.png',
+    thumbnail: '/images/outfits/blouse-white.svg',
     premium: false,
     colors: ['#FFFFFF']
   },
@@ -128,7 +128,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '연핑크 블라우스',
     gender: 'female',
     category: 'business',
-    thumbnail: '/outfits/female-blouse-pink.png',
+    thumbnail: '/images/outfits/blouse-pink.svg',
     premium: true,
     colors: ['#FFB6C1']
   },
@@ -137,7 +137,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '하늘색 블라우스',
     gender: 'female',
     category: 'business',
-    thumbnail: '/outfits/female-blouse-blue.png',
+    thumbnail: '/images/outfits/blouse-white.svg',
     premium: false,
     colors: ['#87CEEB']
   },
@@ -148,7 +148,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '간호사 유니폼',
     gender: 'unisex',
     category: 'uniform',
-    thumbnail: '/outfits/uniform-nurse.png',
+    thumbnail: '/images/outfits/blouse-white.svg',
     premium: true,
     colors: ['#FFFFFF', '#4169E1']
   },
@@ -157,7 +157,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '의사 가운',
     gender: 'unisex',
     category: 'uniform',
-    thumbnail: '/outfits/uniform-doctor.png',
+    thumbnail: '/images/outfits/blouse-white.svg',
     premium: true,
     colors: ['#FFFFFF']
   },
@@ -168,7 +168,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '남학생 교복',
     gender: 'male',
     category: 'student',
-    thumbnail: '/outfits/student-uniform-male.png',
+    thumbnail: '/images/outfits/student-uniform.svg',
     premium: true,
     colors: ['#1e3a5f', '#FFFFFF']
   },
@@ -177,7 +177,7 @@ export const outfitOptions: OutfitOption[] = [
     name: '여학생 교복',
     gender: 'female',
     category: 'student',
-    thumbnail: '/outfits/student-uniform-female.png',
+    thumbnail: '/images/outfits/student-uniform.svg',
     premium: true,
     colors: ['#1e3a5f', '#FFFFFF']
   }

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" fill="none">
+  <!-- Clean White Background -->
+  <rect width="300" height="400" fill="#FFFFFF"/>
+
+  <!-- Body/Shoulders - Formal Suit -->
+  <ellipse cx="150" cy="420" rx="120" ry="80" fill="#1F2937"/>
+
+  <!-- White Shirt -->
+  <path d="M120 310 L130 400 L170 400 L180 310 L165 300 L150 305 L135 300 Z" fill="white"/>
+
+  <!-- Tie -->
+  <path d="M150 305 L140 320 L150 400 L160 320 Z" fill="#3B82F6"/>
+
+  <!-- Suit Lapels -->
+  <path d="M100 310 L120 300 L135 400 L80 400 Z" fill="#1F2937"/>
+  <path d="M200 310 L180 300 L165 400 L220 400 Z" fill="#1F2937"/>
+
+  <!-- Neck -->
+  <rect x="120" y="260" width="60" height="50" fill="#F5D6C6"/>
+
+  <!-- Face - Slightly smoothed -->
+  <ellipse cx="150" cy="180" rx="75" ry="95" fill="#F8DDD0"/>
+
+  <!-- Hair - Neatly styled -->
+  <ellipse cx="150" cy="115" rx="78" ry="65" fill="#2C1810"/>
+  <path d="M75 140 Q70 180 80 200" fill="#2C1810"/>
+  <path d="M225 140 Q230 180 220 200" fill="#2C1810"/>
+
+  <!-- Ears -->
+  <ellipse cx="75" cy="190" rx="12" ry="20" fill="#F5CFC0"/>
+  <ellipse cx="225" cy="190" rx="12" ry="20" fill="#F5CFC0"/>
+
+  <!-- Eyes - Enhanced -->
+  <ellipse cx="115" cy="180" rx="16" ry="11" fill="white"/>
+  <ellipse cx="185" cy="180" rx="16" ry="11" fill="white"/>
+  <ellipse cx="115" cy="182" rx="9" ry="9" fill="#2C1810"/>
+  <ellipse cx="185" cy="182" rx="9" ry="9" fill="#2C1810"/>
+  <ellipse cx="117" cy="179" rx="4" ry="4" fill="white"/>
+  <ellipse cx="187" cy="179" rx="4" ry="4" fill="white"/>
+
+  <!-- Eyebrows -->
+  <path d="M95 160 Q115 155 135 162" stroke="#2C1810" stroke-width="3.5" fill="none"/>
+  <path d="M165 162 Q185 155 205 160" stroke="#2C1810" stroke-width="3.5" fill="none"/>
+
+  <!-- Nose -->
+  <path d="M150 185 L146 218 Q150 225 154 218 L150 185" fill="#EBCFC0"/>
+
+  <!-- Mouth - Natural smile -->
+  <path d="M130 248 Q150 258 170 248" stroke="#C9907A" stroke-width="2.5" fill="none"/>
+</svg>

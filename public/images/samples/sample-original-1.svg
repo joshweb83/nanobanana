@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" fill="none">
+  <!-- Background -->
+  <rect width="300" height="400" fill="#E8D4C4"/>
+
+  <!-- Body/Shoulders -->
+  <ellipse cx="150" cy="420" rx="120" ry="80" fill="#6B7280"/>
+
+  <!-- Neck -->
+  <rect x="120" y="260" width="60" height="50" fill="#F5D6C6"/>
+
+  <!-- Face -->
+  <ellipse cx="150" cy="180" rx="75" ry="95" fill="#F5D6C6"/>
+
+  <!-- Hair -->
+  <ellipse cx="150" cy="120" rx="80" ry="70" fill="#2C1810"/>
+  <ellipse cx="80" cy="160" rx="20" ry="50" fill="#2C1810"/>
+  <ellipse cx="220" cy="160" rx="20" ry="50" fill="#2C1810"/>
+
+  <!-- Ears -->
+  <ellipse cx="75" cy="190" rx="12" ry="20" fill="#F0C9B8"/>
+  <ellipse cx="225" cy="190" rx="12" ry="20" fill="#F0C9B8"/>
+
+  <!-- Eyes -->
+  <ellipse cx="115" cy="180" rx="15" ry="10" fill="white"/>
+  <ellipse cx="185" cy="180" rx="15" ry="10" fill="white"/>
+  <ellipse cx="115" cy="182" rx="8" ry="8" fill="#3D2314"/>
+  <ellipse cx="185" cy="182" rx="8" ry="8" fill="#3D2314"/>
+  <ellipse cx="117" cy="180" rx="3" ry="3" fill="white"/>
+  <ellipse cx="187" cy="180" rx="3" ry="3" fill="white"/>
+
+  <!-- Eyebrows -->
+  <path d="M95 160 Q115 155 135 162" stroke="#2C1810" stroke-width="4" fill="none"/>
+  <path d="M165 162 Q185 155 205 160" stroke="#2C1810" stroke-width="4" fill="none"/>
+
+  <!-- Nose -->
+  <path d="M150 185 L145 220 Q150 228 155 220 L150 185" fill="#E8C4B4"/>
+
+  <!-- Mouth -->
+  <path d="M125 250 Q150 265 175 250" stroke="#C4846C" stroke-width="3" fill="none"/>
+
+  <!-- T-shirt -->
+  <path d="M60 310 L90 280 L120 295 L150 285 L180 295 L210 280 L240 310 L250 400 L50 400 Z" fill="#4A90A4"/>
+
+  <!-- T-shirt collar -->
+  <ellipse cx="150" cy="295" rx="35" ry="15" fill="#F5D6C6"/>
+</svg>
