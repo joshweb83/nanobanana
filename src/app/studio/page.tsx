@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Check, ChevronRight, ChevronLeft, RefreshCw, Sparkles, Crop } from "lucide-react";
 import { PhotoSpec, BackgroundOption, OutfitOption, PrintLayout } from "@/types";
 import { photoSpecs } from "@/lib/photoSpecs";
 import { backgroundOptions } from "@/lib/backgrounds";
-import { printLayouts } from "@/lib/printLayouts";
+import { printLayouts, getCompatibleLayouts, getRecommendedLayout } from "@/lib/printLayouts";
 import { getDefaultRetouchSettings } from "@/lib/retouchOptions";
 
 import UploadStep from "./components/UploadStep";
@@ -14,7 +14,7 @@ import PhotoSpecSelector from "./components/PhotoSpecSelector";
 import BackgroundSelector from "./components/BackgroundSelector";
 import OutfitSelector from "./components/OutfitSelector";
 import RetouchPanel from "./components/RetouchPanel";
-import ImagePreview from "./components/ImagePreview";
+import DraggablePreview, { CropData } from "./components/DraggablePreview";
 import ValidationPanel from "./components/ValidationPanel";
 import PrintLayoutSelector from "./components/PrintLayoutSelector";
 import ResultStep from "./components/ResultStep";
@@ -31,6 +31,9 @@ export default function StudioPage() {
   const [croppedImage, setCroppedImage] = useState<string | null>(null);
   const [processedImage, setProcessedImage] = useState<string | null>(null);
 
+  // Crop data for draggable preview
+  const [cropData, setCropData] = useState<CropData>({ x: 0, y: 0, zoom: 1 });
+
   // Selection state
   const [selectedSpec, setSelectedSpec] = useState<PhotoSpec | null>(photoSpecs[0]);
   const [selectedBackground, setSelectedBackground] = useState<BackgroundOption | null>(backgroundOptions[0]);
@@ -40,6 +43,17 @@ export default function StudioPage() {
 
   // Options tab
   const [activeTab, setActiveTab] = useState<'spec' | 'background' | 'outfit' | 'retouch' | 'print'>('spec');
+
+  // 규격 변경시 호환되는 인쇄 배치로 자동 변경
+  useEffect(() => {
+    if (selectedSpec) {
+      const compatibleLayouts = getCompatibleLayouts(selectedSpec);
+      // 현재 선택된 레이아웃이 호환되지 않으면 권장 레이아웃으로 변경
+      if (selectedPrintLayout && !compatibleLayouts.find(l => l.id === selectedPrintLayout.id)) {
+        setSelectedPrintLayout(getRecommendedLayout(selectedSpec));
+      }
+    }
+  }, [selectedSpec, selectedPrintLayout]);
 
   const handleImageUpload = useCallback((imageData: string) => {
     setOriginalImage(imageData);
@@ -79,6 +93,7 @@ export default function StudioPage() {
     setOriginalImage(null);
     setCroppedImage(null);
     setProcessedImage(null);
+    setCropData({ x: 0, y: 0, zoom: 1 });
     setSelectedSpec(photoSpecs[0]);
     setSelectedBackground(backgroundOptions[0]);
     setSelectedOutfit(null);
@@ -86,6 +101,11 @@ export default function StudioPage() {
     setRetouchSettings(getDefaultRetouchSettings());
     setActiveTab('spec');
   };
+
+  // 드래그 프리뷰에서 크롭 변경 처리
+  const handleCropDataChange = useCallback((newCropData: CropData) => {
+    setCropData(newCropData);
+  }, []);
 
   const steps = [
     { id: "upload", label: "사진 업로드", num: 1 },
@@ -191,28 +211,30 @@ export default function StudioPage() {
           <div className="grid lg:grid-cols-5 gap-6">
             {/* Left: Preview & Validation */}
             <div className="lg:col-span-2 space-y-6">
-              <div className="relative">
-                <ImagePreview
-                  originalImage={originalImage}
-                  processedImage={croppedImage}
+              {/* Draggable Preview - 드래그로 크롭 위치 조정 가능 */}
+              {currentImage && (
+                <DraggablePreview
+                  image={currentImage}
                   selectedSpec={selectedSpec}
                   selectedBackground={selectedBackground}
-                  showComparison={!!croppedImage && croppedImage !== originalImage}
+                  onCropChange={handleCropDataChange}
+                  initialCrop={cropData}
                 />
+              )}
 
-                {/* Re-crop Button */}
-                <button
-                  onClick={handleReCrop}
-                  className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-lg shadow-lg text-sm font-medium text-gray-700 hover:bg-white flex items-center gap-1.5 z-10"
-                >
-                  <Crop className="w-4 h-4" />
-                  다시 크롭
-                </button>
-              </div>
               <ValidationPanel
                 selectedSpec={selectedSpec}
                 hasImage={!!currentImage}
               />
+
+              {/* Crop Editor 바로가기 버튼 */}
+              <button
+                onClick={handleReCrop}
+                className="w-full py-3 border-2 border-dashed border-gray-300 rounded-xl text-sm font-medium text-gray-500 hover:border-indigo-300 hover:text-indigo-600 flex items-center justify-center gap-2 transition-colors"
+              >
+                <Crop className="w-4 h-4" />
+                정밀 크롭 에디터 열기
+              </button>
             </div>
 
             {/* Right: Options */}
@@ -266,6 +288,7 @@ export default function StudioPage() {
                   <PrintLayoutSelector
                     selectedLayout={selectedPrintLayout}
                     onSelect={setSelectedPrintLayout}
+                    selectedSpec={selectedSpec}
                   />
                 )}
               </div>
@@ -293,39 +316,32 @@ export default function StudioPage() {
                   <div className="p-3 bg-indigo-50 rounded-xl border border-indigo-100">
                     <span className="text-indigo-600 block mb-1">크롭</span>
                     <span className="font-medium text-indigo-700 text-xs">
-                      {croppedImage && croppedImage !== originalImage ? '적용됨' : '원본'}
+                      {cropData.x !== 0 || cropData.y !== 0 || cropData.zoom !== 1
+                        ? `조정됨 (${Math.round(cropData.zoom * 100)}%)`
+                        : '기본'}
                     </span>
                   </div>
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex gap-4">
-                <button
-                  onClick={handleReCrop}
-                  className="flex-1 py-4 border-2 border-gray-200 rounded-xl font-medium text-gray-700 hover:bg-gray-50 flex items-center justify-center gap-2"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                  크롭 수정
-                </button>
-                <button
-                  onClick={processImage}
-                  disabled={isProcessing}
-                  className="flex-[2] gradient-bg text-white py-4 rounded-xl font-semibold hover:opacity-90 flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/30 disabled:opacity-70"
-                >
-                  {isProcessing ? (
-                    <>
-                      <RefreshCw className="w-5 h-5 animate-spin" />
-                      AI가 사진을 처리하고 있습니다...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-5 h-5" />
-                      사진 생성하기
-                    </>
-                  )}
-                </button>
-              </div>
+              {/* Action Button */}
+              <button
+                onClick={processImage}
+                disabled={isProcessing}
+                className="w-full gradient-bg text-white py-4 rounded-xl font-semibold hover:opacity-90 flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/30 disabled:opacity-70"
+              >
+                {isProcessing ? (
+                  <>
+                    <RefreshCw className="w-5 h-5 animate-spin" />
+                    AI가 사진을 처리하고 있습니다...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-5 h-5" />
+                    사진 생성하기
+                  </>
+                )}
+              </button>
             </div>
           </div>
         )}

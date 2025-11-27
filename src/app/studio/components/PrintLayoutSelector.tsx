@@ -1,15 +1,22 @@
 "use client";
 
-import { PrintLayout } from "@/types";
-import { printLayouts } from "@/lib/printLayouts";
-import { Check, Lock, Grid, FileImage } from "lucide-react";
+import { PrintLayout, PhotoSpec } from "@/types";
+import { printLayouts, getCompatibleLayouts } from "@/lib/printLayouts";
+import { Check, Lock, Grid, FileImage, AlertCircle } from "lucide-react";
 
 interface PrintLayoutSelectorProps {
   selectedLayout: PrintLayout | null;
   onSelect: (layout: PrintLayout) => void;
+  selectedSpec?: PhotoSpec | null;
 }
 
-export default function PrintLayoutSelector({ selectedLayout, onSelect }: PrintLayoutSelectorProps) {
+export default function PrintLayoutSelector({ selectedLayout, onSelect, selectedSpec }: PrintLayoutSelectorProps) {
+  // 선택된 규격에 맞는 레이아웃만 필터링
+  const compatibleLayouts = getCompatibleLayouts(selectedSpec || null);
+  const incompatibleLayoutIds = printLayouts
+    .filter(l => !compatibleLayouts.find(c => c.id === l.id))
+    .map(l => l.id);
+
   const renderLayoutPreview = (layout: PrintLayout) => {
     const cells = [];
     for (let i = 0; i < layout.rows * layout.cols; i++) {
@@ -36,6 +43,8 @@ export default function PrintLayoutSelector({ selectedLayout, onSelect }: PrintL
     );
   };
 
+  const isIncompatible = (layoutId: string) => incompatibleLayoutIds.includes(layoutId);
+
   return (
     <div className="bg-white rounded-2xl shadow-xl p-6">
       <div className="flex items-center justify-between mb-4">
@@ -43,56 +52,89 @@ export default function PrintLayoutSelector({ selectedLayout, onSelect }: PrintL
         <span className="text-sm text-gray-500">출력용 배치 선택</span>
       </div>
 
+      {/* 규격 기반 필터링 안내 */}
+      {selectedSpec && incompatibleLayoutIds.length > 0 && (
+        <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-2">
+          <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
+          <p className="text-xs text-amber-700">
+            <span className="font-medium">{selectedSpec.name}</span> ({selectedSpec.width}x{selectedSpec.height}{selectedSpec.unit}) 규격에 맞는 배치만 활성화됩니다.
+            사진 크기가 용지에 맞지 않는 배치는 비활성화됩니다.
+          </p>
+        </div>
+      )}
+
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        {printLayouts.map((layout) => (
-          <button
-            key={layout.id}
-            onClick={() => !layout.premium && onSelect(layout)}
-            className={`relative p-4 rounded-xl border-2 transition-all ${
-              selectedLayout?.id === layout.id
-                ? "border-indigo-500 bg-indigo-50"
-                : layout.premium
-                ? "border-gray-200 opacity-60"
-                : "border-gray-200 hover:border-indigo-300"
-            }`}
-          >
-            {/* Preview */}
-            <div className="w-full aspect-square flex items-center justify-center mb-3">
-              {layout.id === 'single' ? (
-                <div className="w-12 h-16 bg-indigo-100 rounded-lg flex items-center justify-center border border-indigo-200">
-                  <FileImage className="w-6 h-6 text-indigo-400" />
-                </div>
-              ) : (
-                <div className="w-full max-w-[80px]">
-                  {renderLayoutPreview(layout)}
+        {printLayouts.map((layout) => {
+          const incompatible = isIncompatible(layout.id);
+          const disabled = layout.premium || incompatible;
+
+          return (
+            <button
+              key={layout.id}
+              onClick={() => !disabled && onSelect(layout)}
+              disabled={disabled}
+              className={`relative p-4 rounded-xl border-2 transition-all ${
+                selectedLayout?.id === layout.id
+                  ? "border-indigo-500 bg-indigo-50"
+                  : incompatible
+                  ? "border-gray-200 opacity-40 cursor-not-allowed"
+                  : layout.premium
+                  ? "border-gray-200 opacity-60"
+                  : "border-gray-200 hover:border-indigo-300"
+              }`}
+            >
+              {/* Preview */}
+              <div className="w-full aspect-square flex items-center justify-center mb-3">
+                {layout.id === 'single' ? (
+                  <div className={`w-12 h-16 rounded-lg flex items-center justify-center border ${
+                    incompatible ? 'bg-gray-100 border-gray-200' : 'bg-indigo-100 border-indigo-200'
+                  }`}>
+                    <FileImage className={`w-6 h-6 ${incompatible ? 'text-gray-300' : 'text-indigo-400'}`} />
+                  </div>
+                ) : (
+                  <div className="w-full max-w-[80px]">
+                    {renderLayoutPreview(layout)}
+                  </div>
+                )}
+              </div>
+
+              {/* Info */}
+              <div className="text-center">
+                <p className={`font-medium text-sm ${incompatible ? 'text-gray-400' : 'text-gray-900'}`}>
+                  {layout.name}
+                </p>
+                <p className="text-xs text-gray-500">{layout.paperSize}</p>
+              </div>
+
+              {/* Selection Check */}
+              {selectedLayout?.id === layout.id && (
+                <div className="absolute top-2 right-2 w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center shadow">
+                  <Check className="w-4 h-4 text-white" />
                 </div>
               )}
-            </div>
 
-            {/* Info */}
-            <div className="text-center">
-              <p className="font-medium text-gray-900 text-sm">{layout.name}</p>
-              <p className="text-xs text-gray-500">{layout.paperSize}</p>
-            </div>
-
-            {/* Selection Check */}
-            {selectedLayout?.id === layout.id && (
-              <div className="absolute top-2 right-2 w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center shadow">
-                <Check className="w-4 h-4 text-white" />
-              </div>
-            )}
-
-            {/* Premium Lock */}
-            {layout.premium && (
-              <div className="absolute inset-0 flex items-center justify-center bg-white/50 rounded-xl">
-                <div className="bg-white px-3 py-1.5 rounded-full shadow flex items-center gap-1.5">
-                  <Lock className="w-3 h-3 text-gray-500" />
-                  <span className="text-xs text-gray-600">Pro</span>
+              {/* Incompatible Overlay */}
+              {incompatible && (
+                <div className="absolute inset-0 flex items-center justify-center bg-white/60 rounded-xl">
+                  <div className="bg-gray-100 px-2 py-1 rounded-full flex items-center gap-1">
+                    <AlertCircle className="w-3 h-3 text-gray-400" />
+                    <span className="text-xs text-gray-500">크기 초과</span>
+                  </div>
                 </div>
-              </div>
-            )}
-          </button>
-        ))}
+              )}
+
+              {/* Premium Lock */}
+              {layout.premium && !incompatible && (
+                <div className="absolute inset-0 flex items-center justify-center bg-white/50 rounded-xl">
+                  <div className="bg-white px-3 py-1.5 rounded-full shadow flex items-center gap-1.5">
+                    <Lock className="w-3 h-3 text-gray-500" />
+                    <span className="text-xs text-gray-600">Pro</span>
+                  </div>
+                </div>
+              )}
+            </button>
+          );
+        })}
       </div>
 
       {/* Selected Layout Info */}
