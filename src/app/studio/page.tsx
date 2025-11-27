@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Check, ChevronRight, ChevronLeft, RefreshCw, Sparkles } from "lucide-react";
+import { Check, ChevronRight, ChevronLeft, RefreshCw, Sparkles, Crop } from "lucide-react";
 import { PhotoSpec, BackgroundOption, OutfitOption, PrintLayout } from "@/types";
 import { photoSpecs } from "@/lib/photoSpecs";
 import { backgroundOptions } from "@/lib/backgrounds";
@@ -9,6 +9,7 @@ import { printLayouts } from "@/lib/printLayouts";
 import { getDefaultRetouchSettings } from "@/lib/retouchOptions";
 
 import UploadStep from "./components/UploadStep";
+import CropEditor from "./components/CropEditor";
 import PhotoSpecSelector from "./components/PhotoSpecSelector";
 import BackgroundSelector from "./components/BackgroundSelector";
 import OutfitSelector from "./components/OutfitSelector";
@@ -18,7 +19,7 @@ import ValidationPanel from "./components/ValidationPanel";
 import PrintLayoutSelector from "./components/PrintLayoutSelector";
 import ResultStep from "./components/ResultStep";
 
-type Step = "upload" | "options" | "result";
+type Step = "upload" | "crop" | "options" | "result";
 
 export default function StudioPage() {
   // Step management
@@ -27,6 +28,7 @@ export default function StudioPage() {
 
   // Image state
   const [originalImage, setOriginalImage] = useState<string | null>(null);
+  const [croppedImage, setCroppedImage] = useState<string | null>(null);
   const [processedImage, setProcessedImage] = useState<string | null>(null);
 
   // Selection state
@@ -41,14 +43,33 @@ export default function StudioPage() {
 
   const handleImageUpload = useCallback((imageData: string) => {
     setOriginalImage(imageData);
+    setCurrentStep("crop");
+  }, []);
+
+  const handleCropComplete = useCallback((croppedImageData: string) => {
+    setCroppedImage(croppedImageData);
     setCurrentStep("options");
+  }, []);
+
+  const handleCropCancel = useCallback(() => {
+    setCurrentStep("upload");
+    setOriginalImage(null);
+  }, []);
+
+  const handleSkipCrop = useCallback(() => {
+    setCroppedImage(originalImage);
+    setCurrentStep("options");
+  }, [originalImage]);
+
+  const handleReCrop = useCallback(() => {
+    setCurrentStep("crop");
   }, []);
 
   const processImage = async () => {
     setIsProcessing(true);
     // Simulate AI processing
     await new Promise(resolve => setTimeout(resolve, 2500));
-    setProcessedImage(originalImage);
+    setProcessedImage(croppedImage || originalImage);
     setIsProcessing(false);
     setCurrentStep("result");
   };
@@ -56,6 +77,7 @@ export default function StudioPage() {
   const resetStudio = () => {
     setCurrentStep("upload");
     setOriginalImage(null);
+    setCroppedImage(null);
     setProcessedImage(null);
     setSelectedSpec(photoSpecs[0]);
     setSelectedBackground(backgroundOptions[0]);
@@ -67,8 +89,9 @@ export default function StudioPage() {
 
   const steps = [
     { id: "upload", label: "사진 업로드", num: 1 },
-    { id: "options", label: "옵션 선택", num: 2 },
-    { id: "result", label: "결과 확인", num: 3 },
+    { id: "crop", label: "크롭 조정", num: 2 },
+    { id: "options", label: "옵션 선택", num: 3 },
+    { id: "result", label: "결과 확인", num: 4 },
   ];
 
   const optionTabs = [
@@ -80,7 +103,7 @@ export default function StudioPage() {
   ];
 
   const getStepStatus = (stepId: string) => {
-    const stepOrder = ["upload", "options", "result"];
+    const stepOrder = ["upload", "crop", "options", "result"];
     const currentIndex = stepOrder.indexOf(currentStep);
     const stepIndex = stepOrder.indexOf(stepId);
 
@@ -89,19 +112,22 @@ export default function StudioPage() {
     return "pending";
   };
 
+  // 현재 사용할 이미지 (크롭된 이미지 우선)
+  const currentImage = croppedImage || originalImage;
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Progress Steps */}
         <div className="mb-8">
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-2 sm:gap-4">
             {steps.map((item, index) => {
               const status = getStepStatus(item.id);
               return (
                 <div key={item.id} className="flex items-center">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1 sm:gap-2">
                     <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center font-medium text-sm transition-all ${
+                      className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-medium text-xs sm:text-sm transition-all ${
                         status === "current"
                           ? "gradient-bg text-white shadow-lg shadow-indigo-500/30"
                           : status === "completed"
@@ -110,13 +136,13 @@ export default function StudioPage() {
                       }`}
                     >
                       {status === "completed" ? (
-                        <Check className="w-5 h-5" />
+                        <Check className="w-4 h-4 sm:w-5 sm:h-5" />
                       ) : (
                         item.num
                       )}
                     </div>
                     <span
-                      className={`text-sm font-medium hidden sm:block ${
+                      className={`text-xs sm:text-sm font-medium hidden md:block ${
                         status === "current" ? "text-indigo-600" :
                         status === "completed" ? "text-green-600" : "text-gray-500"
                       }`}
@@ -125,7 +151,7 @@ export default function StudioPage() {
                     </span>
                   </div>
                   {index < steps.length - 1 && (
-                    <ChevronRight className="w-5 h-5 text-gray-300 mx-2 sm:mx-4" />
+                    <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 mx-1 sm:mx-2" />
                   )}
                 </div>
               );
@@ -138,21 +164,54 @@ export default function StudioPage() {
           <UploadStep onImageUpload={handleImageUpload} />
         )}
 
+        {/* Crop Step */}
+        {currentStep === "crop" && originalImage && (
+          <div className="max-w-3xl mx-auto space-y-4">
+            <CropEditor
+              image={originalImage}
+              selectedSpec={selectedSpec}
+              onCropComplete={handleCropComplete}
+              onCancel={handleCropCancel}
+            />
+
+            {/* Skip Crop Option */}
+            <div className="text-center">
+              <button
+                onClick={handleSkipCrop}
+                className="text-sm text-gray-500 hover:text-indigo-600 underline"
+              >
+                크롭 없이 원본 그대로 사용하기
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Options Step */}
         {currentStep === "options" && (
           <div className="grid lg:grid-cols-5 gap-6">
             {/* Left: Preview & Validation */}
             <div className="lg:col-span-2 space-y-6">
-              <ImagePreview
-                originalImage={originalImage}
-                processedImage={processedImage}
-                selectedSpec={selectedSpec}
-                selectedBackground={selectedBackground}
-                showComparison={false}
-              />
+              <div className="relative">
+                <ImagePreview
+                  originalImage={originalImage}
+                  processedImage={croppedImage}
+                  selectedSpec={selectedSpec}
+                  selectedBackground={selectedBackground}
+                  showComparison={!!croppedImage && croppedImage !== originalImage}
+                />
+
+                {/* Re-crop Button */}
+                <button
+                  onClick={handleReCrop}
+                  className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-lg shadow-lg text-sm font-medium text-gray-700 hover:bg-white flex items-center gap-1.5 z-10"
+                >
+                  <Crop className="w-4 h-4" />
+                  다시 크롭
+                </button>
+              </div>
               <ValidationPanel
                 selectedSpec={selectedSpec}
-                hasImage={!!originalImage}
+                hasImage={!!currentImage}
               />
             </div>
 
@@ -214,22 +273,28 @@ export default function StudioPage() {
               {/* Summary */}
               <div className="bg-white rounded-2xl shadow-xl p-6">
                 <h3 className="font-semibold text-gray-900 mb-4">선택 요약</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-sm">
                   <div className="p-3 bg-gray-50 rounded-xl">
                     <span className="text-gray-500 block mb-1">규격</span>
-                    <span className="font-medium text-gray-900">{selectedSpec?.name || '-'}</span>
+                    <span className="font-medium text-gray-900 text-xs">{selectedSpec?.name || '-'}</span>
                   </div>
                   <div className="p-3 bg-gray-50 rounded-xl">
                     <span className="text-gray-500 block mb-1">배경</span>
-                    <span className="font-medium text-gray-900">{selectedBackground?.name || '-'}</span>
+                    <span className="font-medium text-gray-900 text-xs">{selectedBackground?.name || '-'}</span>
                   </div>
                   <div className="p-3 bg-gray-50 rounded-xl">
                     <span className="text-gray-500 block mb-1">복장</span>
-                    <span className="font-medium text-gray-900">{selectedOutfit?.name || '원본 유지'}</span>
+                    <span className="font-medium text-gray-900 text-xs">{selectedOutfit?.name || '원본'}</span>
                   </div>
                   <div className="p-3 bg-gray-50 rounded-xl">
                     <span className="text-gray-500 block mb-1">인쇄</span>
-                    <span className="font-medium text-gray-900">{selectedPrintLayout?.name || '-'}</span>
+                    <span className="font-medium text-gray-900 text-xs">{selectedPrintLayout?.name || '-'}</span>
+                  </div>
+                  <div className="p-3 bg-indigo-50 rounded-xl border border-indigo-100">
+                    <span className="text-indigo-600 block mb-1">크롭</span>
+                    <span className="font-medium text-indigo-700 text-xs">
+                      {croppedImage && croppedImage !== originalImage ? '적용됨' : '원본'}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -237,11 +302,11 @@ export default function StudioPage() {
               {/* Action Buttons */}
               <div className="flex gap-4">
                 <button
-                  onClick={resetStudio}
+                  onClick={handleReCrop}
                   className="flex-1 py-4 border-2 border-gray-200 rounded-xl font-medium text-gray-700 hover:bg-gray-50 flex items-center justify-center gap-2"
                 >
                   <ChevronLeft className="w-5 h-5" />
-                  처음으로
+                  크롭 수정
                 </button>
                 <button
                   onClick={processImage}
