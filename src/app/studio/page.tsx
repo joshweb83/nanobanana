@@ -136,7 +136,7 @@ export default function StudioPage() {
   const currentImage = croppedImage || originalImage;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gradient-to-b from-[#fafafa] to-[#f8f6f3] py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Progress Steps */}
         <div className="mb-8">
@@ -149,10 +149,10 @@ export default function StudioPage() {
                     <div
                       className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-medium text-xs sm:text-sm transition-all ${
                         status === "current"
-                          ? "gradient-bg text-white shadow-lg shadow-indigo-500/30"
+                          ? "bg-gradient-to-r from-[#1a1a2e] to-[#2d2d44] text-[#c9a962] shadow-lg"
                           : status === "completed"
-                          ? "bg-green-500 text-white"
-                          : "bg-gray-200 text-gray-500"
+                          ? "bg-gradient-to-r from-[#c9a962] to-[#e8d5a3] text-[#1a1a2e]"
+                          : "bg-[#1a1a2e]/10 text-[#1a1a2e]/50"
                       }`}
                     >
                       {status === "completed" ? (
@@ -163,15 +163,15 @@ export default function StudioPage() {
                     </div>
                     <span
                       className={`text-xs sm:text-sm font-medium hidden md:block ${
-                        status === "current" ? "text-indigo-600" :
-                        status === "completed" ? "text-green-600" : "text-gray-500"
+                        status === "current" ? "text-[#1a1a2e]" :
+                        status === "completed" ? "text-[#c9a962]" : "text-[#1a1a2e]/50"
                       }`}
                     >
                       {item.label}
                     </span>
                   </div>
                   {index < steps.length - 1 && (
-                    <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 mx-1 sm:mx-2" />
+                    <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#c9a962]/30 mx-1 sm:mx-2" />
                   )}
                 </div>
               );
@@ -230,7 +230,7 @@ export default function StudioPage() {
               {/* Crop Editor 바로가기 버튼 */}
               <button
                 onClick={handleReCrop}
-                className="w-full py-3 border-2 border-dashed border-gray-300 rounded-xl text-sm font-medium text-gray-500 hover:border-indigo-300 hover:text-indigo-600 flex items-center justify-center gap-2 transition-colors"
+                className="w-full py-3 border-2 border-dashed border-[#c9a962]/30 rounded-xl text-sm font-medium text-[#1a1a2e]/60 hover:border-[#c9a962] hover:text-[#c9a962] flex items-center justify-center gap-2 transition-all"
               >
                 <Crop className="w-4 h-4" />
                 정밀 크롭 에디터 열기
@@ -240,7 +240,7 @@ export default function StudioPage() {
             {/* Right: Options */}
             <div className="lg:col-span-3 space-y-6">
               {/* Option Tabs */}
-              <div className="bg-white rounded-2xl shadow-xl p-2">
+              <div className="bg-white rounded-2xl shadow-xl p-2 border border-[#c9a962]/10">
                 <div className="flex gap-1 overflow-x-auto">
                   {optionTabs.map((tab) => (
                     <button
@@ -248,8 +248,8 @@ export default function StudioPage() {
                       onClick={() => setActiveTab(tab.id as typeof activeTab)}
                       className={`flex-1 px-4 py-3 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
                         activeTab === tab.id
-                          ? "gradient-bg text-white shadow-lg"
-                          : "text-gray-600 hover:bg-gray-100"
+                          ? "bg-gradient-to-r from-[#1a1a2e] to-[#2d2d44] text-[#c9a962] shadow-lg"
+                          : "text-[#1a1a2e]/60 hover:bg-[#1a1a2e]/5"
                       }`}
                     >
                       {tab.label}
@@ -294,28 +294,28 @@ export default function StudioPage() {
               </div>
 
               {/* Summary */}
-              <div className="bg-white rounded-2xl shadow-xl p-6">
-                <h3 className="font-semibold text-gray-900 mb-4">선택 요약</h3>
+              <div className="bg-white rounded-2xl shadow-xl p-6 border border-[#c9a962]/10">
+                <h3 className="font-semibold text-[#1a1a2e] mb-4">선택 요약</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-sm">
-                  <div className="p-3 bg-gray-50 rounded-xl">
-                    <span className="text-gray-500 block mb-1">규격</span>
-                    <span className="font-medium text-gray-900 text-xs">{selectedSpec?.name || '-'}</span>
+                  <div className="p-3 bg-[#f8f6f3] rounded-xl">
+                    <span className="text-[#1a1a2e]/50 block mb-1">규격</span>
+                    <span className="font-medium text-[#1a1a2e] text-xs">{selectedSpec?.name || '-'}</span>
                   </div>
-                  <div className="p-3 bg-gray-50 rounded-xl">
-                    <span className="text-gray-500 block mb-1">배경</span>
-                    <span className="font-medium text-gray-900 text-xs">{selectedBackground?.name || '-'}</span>
+                  <div className="p-3 bg-[#f8f6f3] rounded-xl">
+                    <span className="text-[#1a1a2e]/50 block mb-1">배경</span>
+                    <span className="font-medium text-[#1a1a2e] text-xs">{selectedBackground?.name || '-'}</span>
                   </div>
-                  <div className="p-3 bg-gray-50 rounded-xl">
-                    <span className="text-gray-500 block mb-1">복장</span>
-                    <span className="font-medium text-gray-900 text-xs">{selectedOutfit?.name || '원본'}</span>
+                  <div className="p-3 bg-[#f8f6f3] rounded-xl">
+                    <span className="text-[#1a1a2e]/50 block mb-1">복장</span>
+                    <span className="font-medium text-[#1a1a2e] text-xs">{selectedOutfit?.name || '원본'}</span>
                   </div>
-                  <div className="p-3 bg-gray-50 rounded-xl">
-                    <span className="text-gray-500 block mb-1">인쇄</span>
-                    <span className="font-medium text-gray-900 text-xs">{selectedPrintLayout?.name || '-'}</span>
+                  <div className="p-3 bg-[#f8f6f3] rounded-xl">
+                    <span className="text-[#1a1a2e]/50 block mb-1">인쇄</span>
+                    <span className="font-medium text-[#1a1a2e] text-xs">{selectedPrintLayout?.name || '-'}</span>
                   </div>
-                  <div className="p-3 bg-indigo-50 rounded-xl border border-indigo-100">
-                    <span className="text-indigo-600 block mb-1">크롭</span>
-                    <span className="font-medium text-indigo-700 text-xs">
+                  <div className="p-3 bg-gradient-to-r from-[#c9a962]/10 to-[#e8d5a3]/10 rounded-xl border border-[#c9a962]/20">
+                    <span className="text-[#c9a962] block mb-1">크롭</span>
+                    <span className="font-medium text-[#1a1a2e] text-xs">
                       {cropData.x !== 0 || cropData.y !== 0 || cropData.zoom !== 1
                         ? `조정됨 (${Math.round(cropData.zoom * 100)}%)`
                         : '기본'}
@@ -328,7 +328,7 @@ export default function StudioPage() {
               <button
                 onClick={processImage}
                 disabled={isProcessing}
-                className="w-full gradient-bg text-white py-4 rounded-xl font-semibold hover:opacity-90 flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/30 disabled:opacity-70"
+                className="w-full bg-gradient-to-r from-[#c9a962] to-[#e8d5a3] text-[#1a1a2e] py-4 rounded-xl font-semibold hover:shadow-xl hover:shadow-[#c9a962]/30 flex items-center justify-center gap-2 shadow-lg disabled:opacity-70 transition-all"
               >
                 {isProcessing ? (
                   <>
